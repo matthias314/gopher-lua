@@ -15,6 +15,25 @@ assert(#tbl == 10)
 setmetatable(tbl, nil)
 assert(#tbl == 3)
 
+function inext(t, i)
+    i = i+1
+    local x = t[i]
+    if x then return i, 2*x end
+end
+setmetatable(tbl, {__ipairs = function(t) return inext, t, 0 end})
+local s = 0
+for i, x in ipairs(tbl) do
+    s = s+x
+end
+assert(s == 12)
+
+setmetatable(tbl, {__pairs = function(t) return next, {5, 6} end})
+s = 0
+for i, x in pairs(tbl) do
+    s = s+i+x
+end
+assert(s == 14)
+
 local ok, msg = pcall(function()
   return 1 < "hoge"
 end)

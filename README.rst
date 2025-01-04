@@ -19,7 +19,8 @@ GopherLua: VM and compiler for Lua in Go.
 |
 
 
-GopherLua is a Lua5.1(+ `goto` statement in Lua5.2) VM and compiler written in Go. GopherLua has a same goal
+GopherLua is a Lua 5.1 (+ `goto` statement, `__pairs` and `__ipairs` metamethods
+from Lua 5.2) VM and compiler written in Go. GopherLua has a same goal
 with Lua: **Be a scripting language with extensible semantics** . It provides
 Go APIs that allow you to easily embed a scripting language to your Go host
 programs.
@@ -835,6 +836,7 @@ Miscellaneous notes
 - GopherLua has a function to set an environment variable : ``os.setenv(name, value)``
 - GopherLua support ``goto`` and ``::label::`` statement in Lua5.2.
     - `goto` is a keyword and not a valid variable name.
+- GopherLua supports the `__pairs` and `__ipairs` metamethods from Lua 5.2.
 
 ----------------------------------------------------------------
 Standalone interpreter

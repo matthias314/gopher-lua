@@ -149,10 +149,19 @@ func ipairsaux(L *LState) int {
 }
 
 func baseIpairs(L *LState) int {
-	tb := L.CheckTable(1)
-	L.Push(L.Get(UpvalueIndex(1)))
-	L.Push(tb)
-	L.Push(LNumber(0))
+	lv := L.Get(1)
+	if op := L.metaOp1(lv, "__ipairs"); op.Type() == LTFunction {
+		L.Push(op)
+		L.Push(lv)
+		L.Call(1, 3)
+	} else if tb, ok := lv.(*LTable); ok {
+		L.Push(L.Get(UpvalueIndex(1)))
+		L.Push(tb)
+		L.Push(LNumber(0))
+	} else {
+		L.RaiseError("__ipairs undefined")
+		return 0
+	}
 	return 3
 }
 
@@ -250,10 +259,19 @@ func pairsaux(L *LState) int {
 }
 
 func basePairs(L *LState) int {
-	tb := L.CheckTable(1)
-	L.Push(L.Get(UpvalueIndex(1)))
-	L.Push(tb)
-	L.Push(LNil)
+	lv := L.Get(1)
+	if op := L.metaOp1(lv, "__pairs"); op.Type() == LTFunction {
+		L.Push(op)
+		L.Push(lv)
+		L.Call(1, 3)
+	} else if tb, ok := lv.(*LTable); ok {
+		L.Push(L.Get(UpvalueIndex(1)))
+		L.Push(tb)
+		L.Push(LNil)
+	} else {
+		L.RaiseError("__pairs undefined")
+		return 0
+	}
 	return 3
 }
 
